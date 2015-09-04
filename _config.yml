@@ -1,0 +1,7 @@
+markdown: kramdown
+
+exclude:
+- data.xslx
+- LICENSE.md
+- README.md
+- CONTRIBUTING.md
