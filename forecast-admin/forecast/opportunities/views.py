@@ -3,7 +3,7 @@ from .models import Award
 from rest_framework import viewsets
 from .serializers import AwardSerializer
 
-class AwardViewSet(viewsets.ModelViewSet):
+class AwardViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
