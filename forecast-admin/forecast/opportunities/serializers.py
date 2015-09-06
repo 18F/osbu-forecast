@@ -4,3 +4,4 @@ from .models import Award
 class AwardSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Award
+        exclude = ('owner',)
