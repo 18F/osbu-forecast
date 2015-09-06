@@ -9,3 +9,4 @@ exclude:
 - runtime.txt
 - requirements.txt
 - forecast-admin
+- manifest.yml
