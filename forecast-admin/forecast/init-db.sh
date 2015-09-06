@@ -6,6 +6,6 @@
  
 # echo "------ create default admin user ------"
 # echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@forecast.local', 'Passw0rd')" | python manage.py shell
-python manage.py migrate --fake-initial
+python manage.py migrate
 python manage.py loaddata forecast/fixtures/prod_user.json
 waitress-serve --port=$VCAP_APP_PORT forecast.wsgi:application

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from localflavor.us.models import USStateField, PhoneNumberField
 
 # Create your models here.
@@ -36,3 +37,4 @@ class Award(models.Model):
   osbu_advisor_email = models.EmailField(max_length=200, blank=True, null=True)
   osbu_advisor_phone = PhoneNumberField(blank=True, null=True)
   additional_information = models.TextField(blank=True, null=True)
+  owner = models.ForeignKey(User, default=1)
