@@ -10,3 +10,6 @@ exclude:
 - requirements.txt
 - forecast-admin
 - manifest.yml
+- munging.ipynb
+- cf-ssh.yml
+- .gitignore

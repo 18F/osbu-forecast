@@ -18,3 +18,7 @@ pip-delete-this-directory.txt
 
 forecast-admin/forecast/db.sqlite3
 cf-ssh.yml
+
+# My data-munging and notes
+.ipynb_checkpoints
+munging.ipynb

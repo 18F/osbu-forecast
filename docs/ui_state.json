@@ -1,0 +1,17 @@
+[
+  {
+    "title": "initial_state"
+  },
+  {
+    "title": "planning_phase_selected"
+  },
+  {
+    "title": "active_phase_selected"
+  },
+  {
+    "title": "awarded_phase_selected"
+  },
+  {
+    "title": "all_phase_selected"
+  }
+]
