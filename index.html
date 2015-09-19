@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
 
-  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="{{site.baseurl}}/assets/js/vendor/jquery-1.11.3.min.js"></script>
   <link rel="stylesheet" href="{{site.baseurl}}/assets/css/jquery.dataTables.min.css">
   <script src="{{site.baseurl}}/assets/js/vendor/jquery.dataTables.min.js"></script>
 
@@ -23,7 +23,7 @@
       <div class="main-content">
       <article class="styleguide-content usa-content">
         <h1>View Opportunities</h1>
-        <table id="forecastTable" class="display" cellspacing="0" width="100%">
+        <table id="forecastTable" class="display usa-table-borderless" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>GSA Organization</th>
@@ -79,7 +79,8 @@
         });
 
         var table = $('#forecastTable').DataTable( {
-          "ajax": {url:'data.json',"dataSrc": ""},
+          "sDom":  '<"top"i>rt<"bottom"lp><"clear">',
+          "ajax": {url:'data/2015data.json',"dataSrc": ""},
           "columns": [
             { "data": "GSA Organization", 
               "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
