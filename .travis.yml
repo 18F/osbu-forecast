@@ -7,4 +7,4 @@ deploy:
   api: https://api.18f.gov
   organization: sandbox
   space: vladlen.zvenyach  
-script: echo "deploying to CF"
+script: jekyll build ./_site
