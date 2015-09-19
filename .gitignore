@@ -22,3 +22,6 @@ cf-ssh.yml
 # My data-munging and notes
 .ipynb_checkpoints
 munging.ipynb
+
+node_modules/
+_site
