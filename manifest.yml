@@ -8,3 +8,4 @@ applications:
   path: _site
   timeout: 180
 script: jekyll build ./_site
+domain: 18f.gov
