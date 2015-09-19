@@ -2,76 +2,80 @@
 ---
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-
-  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <link rel="stylesheet" href="{{site.baseurl}}/assets/css/jquery.dataTables.min.css">
-  <script src="{{site.baseurl}}/assets/js/vendor/jquery.dataTables.min.js"></script>
-
-
-<link rel="stylesheet" href="/assets/css/main.css">
-<link rel="stylesheet" href="/assets/css/styleguide.css">
-<link rel="stylesheet" href="/assets/css/google-fonts.css">
-<script src="/assets/js/components.js"></script>
-
-	<title></title>
-    </head>
-    <body class>
-      {% include header.html %}
-      {% include sidenav.html %}
-      <div class="main-content">
+  <head>
+    <meta charset="utf-8">
+    <script src="{{site.baseurl}}/assets/js/vendor/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="{{site.baseurl}}/assets/css/jquery.dataTables.min.css">
+    <script src="{{site.baseurl}}/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script src="{{site.baseurl}}/assets/js/vendor/remodal.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{site.baseurl}}/assets/css/remodal.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{site.baseurl}}/assets/css/remodal-default-theme.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/styleguide.css">
+    <link rel="stylesheet" href="/assets/css/google-fonts.css">
+    <script src="/assets/js/components.js"></script>
+    <title></title>
+  </head>
+  <body class>
+    {% include header.html %}
+    {% include sidenav.html %}
+    <div class="main-content">
       <article class="styleguide-content usa-content">
         <h1>View Opportunities</h1>
-        <table id="forecastTable" class="display" cellspacing="0" width="100%">
-        <thead>
+        <table id="forecastTable" class="display usa-table-borderless" cellspacing="0" width="100%">
+          <thead>
             <tr>
-                <th>GSA Organization</th>
-                <th>Region</th>
-                <th>Award Status</th>
-                <th>Product or Service Description</th>
-                <th>Place of Performance (City)</th>
-                <th>Place of Performance (State)</th>
-                <th>Primary NAICS Code</th>
-                <th>Estimated Award Fiscal Year and Quarter</th>
-                <th>Socioeconomic Category</th>
+              <th>GSA Organization</th>
+              <th>Region</th>
+              <th>Award Status</th>
+              <th>Product or Service Description</th>
+              <th>Place of Performance (City)</th>
+              <th>Place of Performance (State)</th>
+              <th>Primary NAICS Code</th>
+              <th>Estimated Award Fiscal Year and Quarter</th>
+              <th>Socioeconomic Category</th>
             </tr>
             <tr>
-                <th>GSA Organization</th>
-                <th>Region</th>
-                <th>Award Status</th>
-                <th>Product or Service Description</th>
-                <th>Place of Performance (City)</th>
-                <th>Place of Performance (State)</th>
-                <th>Primary NAICS Code</th>
-                <th>Estimated Award Fiscal Year and Quarter</th>
-                <th>Socioeconomic Category</th>
+              <th>GSA Organization</th>
+              <th>Region</th>
+              <th>Award Status</th>
+              <th>Product or Service Description</th>
+              <th>Place of Performance (City)</th>
+              <th>Place of Performance (State)</th>
+              <th>Primary NAICS Code</th>
+              <th>Estimated Award Fiscal Year and Quarter</th>
+              <th>Socioeconomic Category</th>
             </tr>
-        </thead>
-
-        <tfoot>
+          </thead>
+          <tfoot>
             <tr>
-                <th>GSA Organization</th>
-                <th>Region</th>
-                <th>Award Status</th>
-                <th>Product or Service Description</th>
-                <th>Place of Performance (City)</th>
-                <th>Place of Performance (State)</th>
-                <th>Primary NAICS Code</th>
-                <th>Estimated Award Fiscal Year and Quarter</th>
-                <th>Socioeconomic Category</th>
+              <th>GSA Organization</th>
+              <th>Region</th>
+              <th>Award Status</th>
+              <th>Product or Service Description</th>
+              <th>Place of Performance (City)</th>
+              <th>Place of Performance (State)</th>
+              <th>Primary NAICS Code</th>
+              <th>Estimated Award Fiscal Year and Quarter</th>
+              <th>Socioeconomic Category</th>
             </tr>
         </tfoot>
         <tbody>
-
         </tbody>
-    </table>
-
-
+      </table>
       </article>
-      </div>
-      <!-- <script src="{{site.baseurl}}/bower_components/d3/d3.min.js"></script> -->
-      <script>
+    </div>
+    <script>
+      var data;
+      var generateModalHtml = function (d) {
+        var html = "<button data-remodal-action='close' class='remodal-close'></button><h1>Opportunity Detail View</h1><table class='usa-table-borderless' style='overflow: scroll'><tbody>";
+        for (k in d) {
+          html += "<tr><td>" + k + ":</td><td>" + d[k] + "</td>" 
+        }
+        html += "</tbody></table>"
+        return html;
+      }
+ 
       $(document).ready(function() {
         $('#forecastTable thead tr:nth-child(2) th').each(function() {
           var title = $('#forecastTable thead th').eq($(this).index()).text();
@@ -79,11 +83,17 @@
         });
 
         var table = $('#forecastTable').DataTable( {
-          "ajax": {url:'data.json',"dataSrc": ""},
+          "sDom":  '<"top"i>rt<"bottom"lp><"clear">',
+          "sort": false,
+          "ajax": {url:'data/2015data.json',"dataSrc": ""},
           "columns": [
             { "data": "GSA Organization", 
               "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                $(nTd).html("<a href='#'>"+oData["GSA Organization"] + "</a>");
+                $(nTd).html("<a href='#" + iRow + "' data-remodal-target='modal'>" +oData["GSA Organization"] + "</a>");
+                $(nTd).click(function(event) {
+                  $(".remodal").html(generateModalHtml(oData)).remodal().open()
+                  return false;
+                });
             } },
             { "data": "Region" },
             { "data": "Award Status" },
@@ -106,10 +116,11 @@
           $('input', table.column(colIdx).header()).on('click', function(e) {
             e.stopPropagation();
           });
-        });
-      });
 
-      </script>
-
-    </body>
+        })
+        data = table;
+      })
+    </script>
+    <div class="remodal-bg"><div class="remodal" data-remodal-id="modal"></div></div>
+  </body>
 </html>

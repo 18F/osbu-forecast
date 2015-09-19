@@ -2,8 +2,10 @@
 # all applications use these settings and services
 memory: 512M
 instances: 1
+buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
 applications:
-- name: osbu-forecast
-  path: forecast-admin/forecast
+- name: forecast
+  path: _site
   timeout: 180
-command: waitress-serve --port=$VCAP_APP_PORT forecast.wsgi:application
+script: jekyll build ./_site
+domain: 18f.gov
