@@ -70,24 +70,20 @@
       var generateModalHtml = function (d) {
         var html = "<button data-remodal-action='close' class='remodal-close'></button><h1>Opportunity Detail View</h1><table class='usa-table-borderless' style='overflow: scroll'><tbody>";
         for (k in d) {
-          html += "<tr><td>" + k + ":</td><td>" + d[k] + "</td>" 
+          html += "<tr><td>" + k + ":</td><td>" + d[k] + "</td>"
         }
         html += "</tbody></table>"
         return html;
       }
- 
+
       $(document).ready(function() {
-        $('#forecastTable thead tr:nth-child(2) th').each(function() {
-          var title = $('#forecastTable thead th').eq($(this).index()).text();
-          $(this).html('<input type"text" placeholder="Search ' + title + '">');
-        });
 
         var table = $('#forecastTable').DataTable( {
           "sDom":  '<"top"i>rt<"bottom"lp><"clear">',
           "sort": false,
           "ajax": {url:'data/2015data.json',"dataSrc": ""},
           "columns": [
-            { "data": "GSA Organization", 
+            { "data": "GSA Organization",
               "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 $(nTd).html("<a href='#" + iRow + "' data-remodal-target='modal'>" +oData["GSA Organization"] + "</a>");
                 $(nTd).click(function(event) {
@@ -103,21 +99,42 @@
             { "data": "Primary NAICS Code" },
             { "data": "Estimated Award Fiscal Year and Quarter" },
             { "data": "Socioeconomic Category" }
-          ]
+          ],
+          initComplete: function () {
+            this.api().columns().every( function (colIdx) {
+              var column = this;
+              if (colIdx === 3) {
+                var input = $('<input type="text" placeholder="Search">')
+                  .appendTo($(column.header()).empty())
+                  .on('keyup change', function () {
+                    table
+                      .column(colIdx)
+                      .search(this.value)
+                      .draw();
+                  })
+              }
+              else {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.header()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                });
+              }
+            });
+          }
         });
 
-        table.columns().eq(0).each(function(colIdx) {
-          $('input', table.column(colIdx).header()).on('keyup change', function() {
-            table
-              .column(colIdx)
-              .search(this.value)
-              .draw();
-          });
-          $('input', table.column(colIdx).header()).on('click', function(e) {
-            e.stopPropagation();
-          });
-
-        })
         data = table;
       })
     </script>
